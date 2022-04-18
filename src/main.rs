@@ -4,9 +4,8 @@ use dialoguer::{theme::SimpleTheme, Confirm, Input, MultiSelect};
 use fs_extra::dir::get_size;
 use home::home_dir;
 use human_bytes::human_bytes;
-use std::borrow::Cow;
 use std::fs::remove_dir_all;
-use std::path::{Path, PathBuf};
+use std::path::Path;
 
 use walkdir::WalkDir;
 
