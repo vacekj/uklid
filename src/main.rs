@@ -47,7 +47,7 @@ fn main() {
         })
         .filter(|e| e.as_ref().unwrap().path().exists())
         .map(|e| {
-            let owned_e = e.unwrap().to_owned();
+            let owned_e = e.unwrap();
             return (
                 owned_e.path().to_str().unwrap().to_owned(),
                 get_size(owned_e.path()).unwrap_or(0),
@@ -86,7 +86,6 @@ fn main() {
 
     if selections.is_empty() {
         println!("No node_modules selected. Aborting...");
-        return;
     } else {
         println!("The following node_modules will be deleted:");
         for selection in &selections {
@@ -104,7 +103,6 @@ fn main() {
             println!("Freed  {} bytes", human_bytes(deleted as f64));
         } else {
             println!("Aborting...");
-            return;
         }
     }
 }

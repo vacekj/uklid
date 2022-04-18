@@ -1,7 +1,10 @@
 # Uklid 🧹
 
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/vacekj/uklid/build)
+
+
 Uklid (pronounced `[uːklɪt]`, "cleanup" in Czech) is an interactive CLI `node_modules` cleaner written in Rust.
-It looks for top-level node_modules in your computer, shows you their size and allows you to delete them.
+It looks for top-level node_modules in your computer, shows you their size and allows you to delete them conveniently.
 
 ## Features
 - recursively search your home directory for `node_modules`
