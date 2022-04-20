@@ -16,6 +16,7 @@ It looks for top-level node_modules in your computer, shows you their size and a
 
 ## Roadmap
 - tests with 100% coverage
+  - codecov reporting with readme badge
 - multi-threaded searching and cleaning
 - accept command-line arguments (non-interactive mode)
 - a GUI

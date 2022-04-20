@@ -120,6 +120,7 @@ pub fn main() {
     }
 }
 
+/* TODO: add coverage via https://github.com/marketplace/actions/rust-grcov*/
 #[cfg(test)]
 mod tests {
     use super::*;
