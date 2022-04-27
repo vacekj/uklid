@@ -20,3 +20,4 @@ It looks for top-level node_modules in your computer, shows you their size and a
 - multi-threaded searching and cleaning
 - accept command-line arguments (non-interactive mode)
 - a GUI
+- benchmarks against js-based alternatives using [https://github.com/sharkdp/hyperfine](hyperfine)
