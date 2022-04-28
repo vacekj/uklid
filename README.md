@@ -7,6 +7,28 @@
 Uklid (pronounced `[uːklɪt]`, "cleanup" in Czech) is an interactive CLI `node_modules` cleaner written in Rust.
 It looks for top-level node_modules in your computer, shows you their size and allows you to delete them conveniently.
 
+## Installation
+```bash
+cargo install uklid
+```
+
+## Usage
+```bash
+uklid 0.2.0
+Atris <vacekj@outlook.com>
+Interactively delete node_modules.
+
+USAGE:
+    uklid [OPTIONS]
+
+OPTIONS:
+    -d, --dry            Don't delete anything, only print found directories
+    -h, --help           Print help information
+    -p, --path <PATH>    Path to start recursive search for node_modules from
+    -V, --version        Print version information
+
+```
+
 ## Features
 - recursively search your home directory for `node_modules`
 - limit search to a specific directory
