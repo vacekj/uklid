@@ -76,7 +76,7 @@ pub fn main() {
 
     println!("Found {_count} node_module folders with a total size of {_total_size}");
 
-    let paths: Vec<(String)> = node_modules.clone().iter().map(|e| e.0.clone()).collect();
+    let paths: Vec<String> = node_modules.iter().map(|e| e.0.clone()).collect();
 
     let names: Vec<String> = node_modules
         .iter()

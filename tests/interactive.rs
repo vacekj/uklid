@@ -1,9 +1,6 @@
-use assert_cmd::cargo::cargo_bin;
-use assert_cmd::Command;
 use expectrl::{spawn, ControlCode, Error, Regex};
 use std::fs;
 use std::fs::create_dir_all;
-use std::io::BufRead;
 use std::path::PathBuf;
 use std::time::Duration;
 
@@ -20,8 +17,8 @@ fn interactive_cli() -> Result<(), Error> {
             .iter()
             .collect();
 
-    if let Err(e) = create_dir_all(&node_modules_path_str) {
-        panic!("Error creating tests node_modules directory: {e}")
+    if let Err(_e) = create_dir_all(&node_modules_path_str) {
+        panic!("Error creating tests node_modules directory: {_e}")
     }
 
     /* Assert that the tests node_modules directory exists */
@@ -32,16 +29,16 @@ fn interactive_cli() -> Result<(), Error> {
     /* Add some data to the package.json file */
     let data = "hello";
 
-    if let Err(e) = fs::write(&node_modules_file_path_str, data) {
-        panic!("Error writing to temp file: {e}");
+    if let Err(_e) = fs::write(&node_modules_file_path_str, data) {
+        panic!("Error writing to temp file: {_e}");
     };
 
-    let home_dir = get_home_dir();
+    let _home_dir = get_home_dir();
 
     /* Spawn interactive CLI */
     let mut p = spawn("./target/debug/uklid").unwrap();
     p.set_expect_timeout(Some(Duration::from_secs(1)));
-    let prompt = &format!("Where should I start searching? [{home_dir}]");
+    let prompt = &format!("Where should I start searching? [{_home_dir}]");
     p.expect(prompt).unwrap();
     p.send_line(&temp_path)?;
     p.expect(Regex(
@@ -56,7 +53,7 @@ fn interactive_cli() -> Result<(), Error> {
 
     let mut p = spawn("./target/debug/uklid").unwrap();
     p.set_expect_timeout(Some(Duration::from_secs(1)));
-    let prompt = &format!("Where should I start searching? [{home_dir}]");
+    let prompt = &format!("Where should I start searching? [{_home_dir}]");
     p.expect(prompt).unwrap();
     p.send_line(&temp_path)?;
     p.expect(Regex(
@@ -71,7 +68,7 @@ fn interactive_cli() -> Result<(), Error> {
     p.expect(Regex(format!(".*{temp_path}/node_modules.*")))?;
     p.expect("Continue?  [y/n]")?;
     p.send("y")?;
-    p.expect(Regex(format!("Freed .* bytes")))?;
+    p.expect(Regex("Freed .* bytes".to_string()))?;
 
     temp.close().unwrap();
     Ok(())
