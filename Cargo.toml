@@ -2,7 +2,7 @@
 name = "uklid"
 description = "Interactively delete node_modules."
 license = "MIT"
-version = "0.1.1"
+version = "0.2.0"
 authors = ["Atris <vacekj@outlook.com>"]
 repository = "https://github.com/vacekj/uklid/"
 edition = "2021"
