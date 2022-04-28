@@ -76,6 +76,8 @@ pub fn main() {
 
     println!("Found {_count} node_module folders with a total size of {_total_size}");
 
+    let paths: Vec<(String)> = node_modules.clone().iter().map(|e| e.0.clone()).collect();
+
     let names: Vec<String> = node_modules
         .iter()
         .map(|e| {
@@ -106,10 +108,9 @@ pub fn main() {
         }
         if Confirm::new().with_prompt("Continue? ").interact().unwrap() {
             for selection in &selections {
-                if remove_dir_all(&names[*selection]).is_ok() {
-                    deleted += &node_modules[*selection].1;
-                } else {
-                    println!("Failed to delete {}", &names[*selection]);
+                match remove_dir_all(&paths[*selection]) {
+                    Ok(_) => deleted += &node_modules[*selection].1,
+                    Err(e) => println!("Failed to delete {}. Error: {}", &names[*selection], e),
                 }
             }
 
@@ -124,11 +125,67 @@ pub fn main() {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::fs;
+    use std::fs::create_dir_all;
+    use std::path::PathBuf;
 
     #[test]
     fn gets_home_directory() {
         let homedir = home_dir().unwrap();
         let home_dir = get_home_dir();
         assert_eq!(homedir.to_str().unwrap(), home_dir)
+    }
+
+    #[test]
+    fn finds_node_modules_paths() {
+        /* Create a new temporary directory */
+        let temp = assert_fs::TempDir::new().unwrap();
+        /* Create a node_modules with an empty package.json in it */
+        let node_modules_path_str: PathBuf =
+            [temp.to_str().unwrap(), "node_modules"].iter().collect();
+        let node_modules_file_path_str: PathBuf =
+            [node_modules_path_str.to_str().unwrap(), "package.json"]
+                .iter()
+                .collect();
+
+        if let Err(e) = create_dir_all(&node_modules_path_str) {
+            panic!("Error creating tests node_modules directory: {e}")
+        }
+
+        /* Assert that the tests node_modules directory exists */
+        assert!(&node_modules_path_str.as_path().exists());
+
+        let temp_path = temp.to_str().unwrap().to_owned();
+
+        let mut paths = get_node_module_paths(temp_path.clone());
+
+        /* Assert that we found the node_modules folder */
+        assert_eq!(
+            paths.first().unwrap().0,
+            node_modules_path_str.to_str().unwrap()
+        );
+
+        /* Assert that it's empty */
+        assert_eq!(paths.first().unwrap().1, 0);
+
+        /* Add some data to the package.json file */
+        let data = "hello";
+
+        if let Err(e) = fs::write(&node_modules_file_path_str, data) {
+            panic!("Error writing to temp file: {e}");
+        };
+
+        paths = get_node_module_paths(temp_path);
+
+        /* Assert that we found the node_modules folder */
+        assert_eq!(paths[0].0, node_modules_path_str.to_str().unwrap());
+
+        let file_contents = fs::read_to_string(node_modules_file_path_str.as_path());
+        assert_eq!(file_contents.unwrap(), data);
+
+        let file_size = paths[0].1;
+        assert_eq!(file_size, data.as_bytes().len() as u64);
+
+        temp.close().unwrap();
     }
 }
