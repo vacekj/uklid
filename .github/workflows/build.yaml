@@ -57,6 +57,7 @@ jobs:
         with:
           toolchain: nightly
           override: true
+      - uses: Swatinem/rust-cache@v1
       - uses: actions-rs/cargo@v1
         with:
           command: test
@@ -68,5 +69,3 @@ jobs:
       - id: coverage
         uses: actions-rs/grcov@v0.1
       - uses: codecov/codecov-action@v2
-        with:
-         directory: ${{ steps.coverage.outputs.report }}
