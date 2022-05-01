@@ -37,12 +37,11 @@ OPTIONS:
 - multi-select what you want to delete
 - show total storage freed up
 - non-interactive mode (`uklid --help`)
+- high test coverage for both interactive and non-interactive mode
 
 ## Roadmap
 - better searching algorithm
 - ability to not compute sizes to drastically speed up searching
 - async mode?
-- tests with 100% coverage
-  - codecov reporting with readme badge
 - multi-threaded searching and cleaning
 - benchmarks against js-based alternatives using [https://github.com/sharkdp/hyperfine](hyperfine)
