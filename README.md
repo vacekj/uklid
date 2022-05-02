@@ -44,4 +44,6 @@ OPTIONS:
 - ability to not compute sizes to drastically speed up searching
 - async mode?
 - multi-threaded searching and cleaning
-- benchmarks against js-based alternatives using [https://github.com/sharkdp/hyperfine](hyperfine)
+- benchmarks against js-based alternatives using [hyperfine](https://github.com/sharkdp/hyperfine)
+    - https://www.npmjs.com/package/wipe-modules
+    - use a premade package-lock.json file and a nested structure mimicking real projects
