@@ -40,10 +40,11 @@ OPTIONS:
 - high test coverage for both interactive and non-interactive mode
 
 ## Roadmap
+- Filter or sort results by size and last modify date (only delete old, unused node_modules)
 - better searching algorithm
 - ability to not compute sizes to drastically speed up searching
 - async mode?
 - multi-threaded searching and cleaning
 - benchmarks against js-based alternatives using [hyperfine](https://github.com/sharkdp/hyperfine)
     - https://www.npmjs.com/package/wipe-modules
-    - use a premade package-lock.json file and a nested structure mimicking real projects
+    - use a premade zip with a nested node_modules structure mimicking that of a typical developer projects directory
