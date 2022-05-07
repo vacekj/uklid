@@ -1,12 +1,16 @@
 #![feature(path_try_exists)]
 
+use chrono::{DateTime, Local};
+use chrono_humanize::HumanTime;
 use colored::Colorize;
 use dialoguer::theme::SimpleTheme;
 use dialoguer::{Confirm, Input, MultiSelect};
 use fs_extra::dir::get_size;
 use home::home_dir;
+use std::fs;
 use std::fs::remove_dir_all;
 use std::path::Path;
+use std::process::exit;
 use walkdir::WalkDir;
 
 /// Returns the User directory, or the filesystem root if no User directory is found
@@ -61,7 +65,7 @@ pub fn get_node_module_paths(starting_directory: String) -> Vec<(String, u64)> {
     node_modules
 }
 
-pub fn main() {
+pub fn interactive_clean() {
     let home_dir = get_home_dir();
 
     let starting_directory: String = Input::new()
@@ -73,6 +77,10 @@ pub fn main() {
     let node_modules = get_node_module_paths(starting_directory);
 
     let _count = node_modules.len();
+    if _count == 0 {
+        println!("No node_modules found, exiting.");
+        exit(0);
+    }
     let _total_size =
         human_bytes::human_bytes(node_modules.iter().fold(0, |acc, x| acc + x.1) as f64);
 
@@ -89,7 +97,23 @@ pub fn main() {
                 _ => "red",
             };
             let _human_size = human_bytes::human_bytes(e.1 as f64).color(color);
-            return format!("{_human_size} {path}", path = e.0);
+            let _path_ref: &str = e.0.as_ref();
+            let parent = Path::new(_path_ref).parent();
+            let mut parent_last_modified: DateTime<Local> = Local::now();
+            if let Some(dir) = parent {
+                /* If node_modules has a parent directory, set the last modified time to that of the parent */
+                if let Ok(metadata) = fs::metadata(dir) {
+                    parent_last_modified = DateTime::from(metadata.modified().unwrap());
+                } else {
+
+                }
+            } else {
+                parent_last_modified = DateTime::from(fs::metadata(_path_ref).unwrap().modified().unwrap());
+            }
+
+            let _last_modified_formatted = HumanTime::from(parent_last_modified);
+            let _english = format!("{}", _last_modified_formatted);
+            return format!("{_human_size} {path} | Last modified {_english}", path = e.0);
         })
         .collect();
 
