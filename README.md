@@ -41,8 +41,8 @@ OPTIONS:
 - non-interactive mode (`uklid --help`)
 - high test coverage for both interactive and non-interactive mode
 
-## Roadmap
+## Roadmap to 1.0
 - Stop recursive search upon hitting top-level node_modules
-    -  Currently we search all subdirectories, which is inefficient
-- better searching algorithm
+    - Currently we search all subdirectories, which is inefficient
+    - this will most likely require switching out WalkDir for our own implementation
 - multi-threaded searching and cleaning
