@@ -7,6 +7,7 @@ use dialoguer::theme::SimpleTheme;
 use dialoguer::{Confirm, Input, MultiSelect};
 use fs_extra::dir::get_size;
 use home::home_dir;
+use spinners::{Spinner, Spinners};
 use std::fs;
 use std::fs::remove_dir_all;
 use std::path::Path;
@@ -30,6 +31,7 @@ pub fn get_node_module_paths(starting_directory: String) -> Vec<(String, u64)> {
         .expect("Path doesn't exist");
 
     let expanded_starting_directory = shellexpand::tilde(&starting_directory);
+    let mut sp = Spinner::new(Spinners::Dots, "Searching for node_modules".into());
 
     let mut node_modules: Vec<(String, u64)> = WalkDir::new(expanded_starting_directory.as_ref())
         .follow_links(true)
@@ -62,6 +64,7 @@ pub fn get_node_module_paths(starting_directory: String) -> Vec<(String, u64)> {
 
     node_modules.sort_unstable_by_key(|k| k.1);
     node_modules.reverse();
+    sp.stop();
     node_modules
 }
 
