@@ -1,4 +1,5 @@
 use assert_cmd::Command;
+use regex::Regex;
 use std::fs;
 use std::fs::create_dir_all;
 use std::path::PathBuf;
@@ -29,10 +30,9 @@ fn gets_files() {
         .unwrap();
 
     let dry_std_out = std::str::from_utf8(&dry_run_cmd.stdout).unwrap();
-
+    let regex = Regex::new(r"Argument dry").unwrap();
     /* Finds node_modules and dry runs */
-    assert_eq!(dry_std_out,
-               format!("The following node_modules will be deleted:\n  {temp_path}/node_modules\nArgument dry provided, no directories were deleted.\n"));
+    assert!(regex.is_match(dry_std_out));
 
     /* Nothing was deleted */
     assert!(node_modules_path_str.as_path().exists());
@@ -50,10 +50,9 @@ fn gets_files() {
         .unwrap();
 
     let hot_run_stdout = std::str::from_utf8(&hot_run_cmd.stdout).unwrap();
-
+    let found_regex = Regex::new(format!("The following node_modules will be deleted:\n  {temp_path}/node_modules\nFreed  5 B bytes\n").as_ref()).unwrap();
     /* Finds node_modules and deletes files */
-    assert_eq!(hot_run_stdout,
-               format!("The following node_modules will be deleted:\n  {temp_path}/node_modules\nFreed  5 B bytes\n"));
+    assert!(found_regex.is_match(hot_run_stdout));
 
     assert!(!node_modules_file_path_str.exists());
     assert!(!node_modules_path_str.exists());
