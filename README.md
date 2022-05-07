@@ -35,13 +35,14 @@ OPTIONS:
 ## Features
 - recursively search your home directory for `node_modules`
 - limit search to a specific directory
-- show sizes
+- show sizes and last modified time
 - multi-select what you want to delete
 - show total storage freed up
 - non-interactive mode (`uklid --help`)
 - high test coverage for both interactive and non-interactive mode
 
 ## Roadmap
-- Filter or sort results by size and last modify date (only delete old, unused node_modules)
+- Stop recursive search upon hitting top-level node_modules
+    -  Currently we search all subdirectories, which is inefficient
 - better searching algorithm
 - multi-threaded searching and cleaning
