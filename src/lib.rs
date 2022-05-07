@@ -25,7 +25,9 @@ pub fn get_node_module_paths(starting_directory: String) -> Vec<(String, u64)> {
         .try_exists()
         .expect("Path doesn't exist");
 
-    let mut node_modules: Vec<(String, u64)> = WalkDir::new(starting_directory)
+    let expanded_starting_directory = shellexpand::tilde(&starting_directory);
+
+    let mut node_modules: Vec<(String, u64)> = WalkDir::new(expanded_starting_directory.as_ref())
         .follow_links(true)
         .into_iter()
         .filter(|e| e.is_ok())

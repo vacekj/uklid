@@ -1,6 +1,6 @@
 use clap::Parser;
 use std::fs::remove_dir_all;
-use uklid::{get_node_module_paths, main as clean};
+use uklid::{get_node_module_paths, interactive_clean};
 
 #[derive(Parser, Debug)]
 #[clap(author, version, about, long_about = None)]
@@ -51,6 +51,6 @@ fn main() {
         );
     } else {
         /* User did not specify a path, launch interactive CLI */
-        clean();
+        interactive_clean();
     }
 }

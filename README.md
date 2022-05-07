@@ -19,6 +19,8 @@ uklid 0.2.0
 Atris <vacekj@outlook.com>
 Interactively delete node_modules.
 
+Run without options for interactive mode
+
 USAGE:
     uklid [OPTIONS]
 
@@ -42,9 +44,4 @@ OPTIONS:
 ## Roadmap
 - Filter or sort results by size and last modify date (only delete old, unused node_modules)
 - better searching algorithm
-- ability to not compute sizes to drastically speed up searching
-- async mode?
 - multi-threaded searching and cleaning
-- benchmarks against js-based alternatives using [hyperfine](https://github.com/sharkdp/hyperfine)
-    - https://www.npmjs.com/package/wipe-modules
-    - use a premade zip with a nested node_modules structure mimicking that of a typical developer projects directory
